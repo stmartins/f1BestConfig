@@ -4,30 +4,30 @@ import "fmt"
 
 type bestAverage struct {
 	moyenne float32
-	names [6]string
+	names   [6]string
 }
 
 type stats struct {
-	name string
-	puissance int
+	name          string
+	puissance     int
 	aerodynamique int
-	adherence int
-	fiabilite int
+	adherence     int
+	fiabilite     int
 }
 
 var (
-	allFreins []stats
-	allBoites []stats
-	allAileAr []stats
-	allAileAv []stats
-	allSuspen []stats
-	allMoteur []stats
-	freins map[string][]int
-	boites map[string][]int
+	allFreins       []stats
+	allBoites       []stats
+	allAileAr       []stats
+	allAileAv       []stats
+	allSuspen       []stats
+	allMoteur       []stats
+	freins          map[string][]int
+	boites          map[string][]int
 	aileronArrieres map[string][]int
-	aileronAvants map[string][]int
-	suspensions map[string][]int
-	moteurs map[string][]int
+	aileronAvants   map[string][]int
+	suspensions     map[string][]int
+	moteurs         map[string][]int
 )
 
 func initElements() {
@@ -41,7 +41,7 @@ func initElements() {
 	boites = map[string][]int{
 		"boiteEngager": {8, 6, 6, 6},
 		"boiteVortex":  {7, 8, 4, 4},
-		"boiteMsm":  {7, 3, 3, 7},
+		"boiteMsm":     {7, 3, 3, 7},
 		"boiteSliders": {8, 5, 5, 15},
 		"boiteGateway": {7, 4, 7, 4},
 	}
@@ -73,12 +73,12 @@ func initElements() {
 		"moteurBlinker":  {11, 4, 4, 4},
 		"moteurBrute":    {17, 5, 11, 5},
 		"moteurBigBore":  {24, 4, 4, 4},
-		"moteurSmoothOp":  {17, 4, 4, 7},
+		"moteurSmoothOp": {17, 4, 4, 7},
 	}
 }
 
-func printBestConfig(bestConfig bestAverage)  {
-	fmt.Println("With ",bestConfig.moyenne, " average, the best equipement is:" )
+func printBestConfig(bestConfig bestAverage) {
+	fmt.Println("With ", bestConfig.moyenne, " average, the best equipement is:")
 	fmt.Println(bestConfig.names[0], printStats(freins[bestConfig.names[0]]))
 	fmt.Println(bestConfig.names[1], printStats(boites[bestConfig.names[1]]))
 	fmt.Println(bestConfig.names[2], printStats(aileronArrieres[bestConfig.names[2]]))
@@ -88,7 +88,7 @@ func printBestConfig(bestConfig bestAverage)  {
 }
 
 func printStats(st []int) string {
-	return fmt.Sprint("puissance: ", st[0], ", aerodynamique: ", st[1], ", adherence: ",st[2], ", fiabilite: ",st[3])
+	return fmt.Sprint("puissance: ", st[0], ", aerodynamique: ", st[1], ", adherence: ", st[2], ", fiabilite: ", st[3])
 }
 
 func calculBestAverage() bestAverage {
@@ -96,7 +96,7 @@ func calculBestAverage() bestAverage {
 	bestAvg := bestAverage{}
 
 	a, b, c, d, e, f := setLimits()
-tt:= 0
+	tt := 0
 	for i := 0; i < a; i++ {
 		for j := 0; j < b; j++ {
 			for k := 0; k < c; k++ {
@@ -152,7 +152,7 @@ func setLimits() (int, int, int, int, int, int) {
 	return a, b, c, d, e, f
 }
 
-func initAllTools(freins, boites, aileronArrieres, aileronAvants, suspensions, moteurs map[string][]int)  {
+func initAllTools(freins, boites, aileronArrieres, aileronAvants, suspensions, moteurs map[string][]int) {
 	allFreins = initFields(freins)
 	allBoites = initFields(boites)
 	allAileAr = initFields(aileronArrieres)
@@ -173,7 +173,7 @@ func initFields(tool map[string][]int) []stats {
 
 func initStats(name string, puissance, aerodynamique, adherance, fiabilite int) stats {
 	return stats{
-		name: 		   name,
+		name:          name,
 		puissance:     puissance,
 		aerodynamique: aerodynamique,
 		adherence:     adherance,
@@ -182,7 +182,6 @@ func initStats(name string, puissance, aerodynamique, adherance, fiabilite int) 
 }
 
 func main() {
-
 	initElements()
 	initAllTools(freins, boites, aileronArrieres, aileronAvants, suspensions, moteurs)
 	bestConfig := calculBestAverage()
