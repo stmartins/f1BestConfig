@@ -28,6 +28,10 @@ var (
 	aileronAvants   map[string][]int
 	suspensions     map[string][]int
 	moteurs         map[string][]int
+	puissance       int
+	aerodynamique   int
+	adherence       int
+	fiabilite       int
 )
 
 func initElements() {
@@ -109,7 +113,7 @@ func calculBestAverage() bestAverage {
 							tmpAvg = (puissanceAvg + aerodynamiqueAvg + adherenceAvg + fiabiliteAvg) / 4
 							if tmpAvg > bestAvg.moyenne {
 								fmt.Println("in best average puissance:", puissanceAvg*6, "aero:", aerodynamiqueAvg*6, "adher:", adherenceAvg*6, "fiab:", fiabiliteAvg*6, "total:", tmpAvg)
-								funcName(&bestAvg, tmpAvg, i, j, k, l, m, n)
+								setBestAvg(&bestAvg, tmpAvg, i, j, k, l, m, n)
 							}
 						}
 					}
@@ -120,7 +124,7 @@ func calculBestAverage() bestAverage {
 	return bestAvg
 }
 
-func funcName(bestAvg *bestAverage, tmpAvg float32, i int, j int, k int, l int, m int, n int) {
+func setBestAvg(bestAvg *bestAverage, tmpAvg float32, i int, j int, k int, l int, m int, n int) {
 	bestAvg.moyenne = tmpAvg
 	bestAvg.names[0] = allFreins[i].name
 	bestAvg.names[1] = allBoites[j].name
@@ -128,6 +132,10 @@ func funcName(bestAvg *bestAverage, tmpAvg float32, i int, j int, k int, l int, 
 	bestAvg.names[3] = allAileAv[l].name
 	bestAvg.names[4] = allSuspen[m].name
 	bestAvg.names[5] = allMoteur[n].name
+	puissance = allFreins[i].puissance + allBoites[j].puissance + allAileAr[k].puissance + allAileAv[l].puissance + allSuspen[m].puissance + allMoteur[n].puissance
+	aerodynamique = allFreins[i].aerodynamique + allBoites[j].aerodynamique + allAileAr[k].aerodynamique + allAileAv[l].aerodynamique + allSuspen[m].aerodynamique + allMoteur[n].aerodynamique
+	adherence = allFreins[i].adherence + allBoites[j].adherence + allAileAr[k].adherence + allAileAv[l].adherence + allSuspen[m].adherence + allMoteur[n].adherence
+	fiabilite = allFreins[i].fiabilite + allBoites[j].fiabilite + allAileAr[k].fiabilite + allAileAv[l].fiabilite + allSuspen[m].fiabilite + allMoteur[n].fiabilite
 }
 
 func elementsAverage(i int, j int, k int, l int, m int, n int) (float32, float32, float32, float32) {
@@ -181,9 +189,17 @@ func initStats(name string, puissance, aerodynamique, adherance, fiabilite int) 
 	}
 }
 
+func printTotals() {
+	println("puissance:", puissance)
+	println("aerodynamique:", aerodynamique)
+	println("adherence:", adherence)
+	println("fiabilite:", fiabilite)
+}
+
 func main() {
 	initElements()
 	initAllTools(freins, boites, aileronArrieres, aileronAvants, suspensions, moteurs)
 	bestConfig := calculBestAverage()
 	printBestConfig(bestConfig)
+	printTotals()
 }
